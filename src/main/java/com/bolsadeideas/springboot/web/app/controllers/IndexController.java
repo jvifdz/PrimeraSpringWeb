@@ -6,25 +6,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
 @RequestMapping("/app")
 public class IndexController {
 
-    @GetMapping({"/index","/","/home",""})
-    public String index(ModelMap model){
+    @GetMapping({"/index", "/", "/home", ""})
+    public String index(ModelMap model) {
 
         //variable th titulo
-        model.addAttribute("titulo","hola Spring framework");
+        model.addAttribute("titulo", "hola Spring framework");
         return "index";
     }
 
     @RequestMapping("/perfil")
-    public String perfil (Model model){
+    public String perfil(Model model) {
 
         Usuario usuario = new Usuario();
         usuario.setNombre("Andrés");
@@ -32,23 +34,51 @@ public class IndexController {
         usuario.setEmail("pepe@gmail.com");
 
 
-        model.addAttribute("titulo","Perfil del usuario: ".concat(usuario.getNombre()));
+        model.addAttribute("titulo", "Perfil del usuario: ".concat(usuario.getNombre()));
         //variables que luego usamos en el th(usuario comillas" y luego la instancia del usuario
-        model.addAttribute("usuario",usuario);
+        model.addAttribute("usuario", usuario);
 
 
         return "perfil";
     }
+
     @RequestMapping("/listar")
-    public String listar (Model model){
+    public String listar(Model model) {
 
-        List<Usuario> usuarios = new ArrayList<>();
+        model.addAttribute("titulo", "Lista de usuarios: ");
 
-        model.addAttribute("titulo","Lista de usuarios: ");
-        model.addAttribute("usuarios", usuarios);
+        //Uso el model Atrribute para generalizar el añadido a la lista
+        /*List<Usuario> usuarios = new ArrayList<>();
+
+        usuarios.add(new Usuario("Andres", "Guzman", "andres@correo.com"));
+        usuarios.add(new Usuario("John", "Doe", "john@correo.com"));
+        usuarios.add(new Usuario("Jane", "Doe", "jane@correo.com"));
+
+        //otra manera con la clase Arrays y metodo asList nos ahorramos la creacion del arrayList es lo mismo
+
+        List<Usuario> usuarios = Arrays.asList(
+                new Usuario("Andres", "Guzman", "andres@correo.com"),
+                new Usuario("John", "Doe", "john@correo.com"),
+                new Usuario("Jane", "Doe", "jane@correo.com"),
+                new Usuario("Tornado", "Roe", "tornado@correo.com"));*/
+
+        // ya no hace falta que esta en el listar
+        //model.addAttribute("usuarios", usuarios);
 
 
         return "listar";
+    }
+
+    @ModelAttribute("usuarios")
+    public List<Usuario> poblarUsuarios() {
+
+        List<Usuario> usuarios = Arrays.asList(
+                new Usuario("Andres", "Guzman", "andres@correo.com"),
+                new Usuario("John", "Doe", "john@correo.com"),
+                new Usuario("Jane", "Doe", "jane@correo.com"),
+                new Usuario("Tornado", "Roe", "tornado@correo.com"));
+
+        return usuarios;
     }
 
 }
