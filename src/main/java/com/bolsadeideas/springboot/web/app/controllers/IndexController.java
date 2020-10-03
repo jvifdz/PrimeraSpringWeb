@@ -76,7 +76,6 @@ public class IndexController {
                 new Usuario("John", "Doe", "john@correo.com"),
                 new Usuario("Jane", "Doe", "jane@correo.com"),
                 new Usuario("Tornado", "Roe", "tornado@correo.com"));
-
         return usuarios;
     }
 
